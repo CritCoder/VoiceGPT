@@ -97,7 +97,7 @@ export async function POST(request: NextRequest) {
     await runFfmpeg(ffArgs)
     const merged = await readFile(outPath)
 
-    return new NextResponse(merged.buffer, {
+    return new NextResponse(new Uint8Array(merged), {
       headers: {
         'Content-Type': 'video/mp4',
         'Content-Disposition': 'attachment; filename="output-with-voiceover.mp4"',
