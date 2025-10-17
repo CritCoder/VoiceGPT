@@ -6,8 +6,8 @@ import { ThemeProvider } from '@/components/theme-provider'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'FrameCraft - Turn Any Video Into an AI-Narrated Explainer',
-  description: 'Upload your video and watch as AI automatically extracts the most important frames, analyzes what\'s happening in each scene, generates a natural script, and creates professional voice-over narration.',
+  title: 'VoiceGPT - AI-Powered Multi-Language Video Narration',
+  description: 'Transform any video into professional AI-narrated content in 10+ languages. Upload, select voice, and get perfect audio-video sync automatically.',
 }
 
 export default function RootLayout({
@@ -16,15 +16,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
-      </head>
+    <html lang="en" suppressHydrationWarning className="dark">
       <body className={inter.className}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          defaultTheme="dark"
+          enableSystem={false}
           disableTransitionOnChange
         >
           {children}

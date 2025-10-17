@@ -53,22 +53,24 @@ export function LandingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black font-sans">
+    <div className="min-h-screen bg-background font-sans">
       {/* Header */}
-      <header className="border-b border-white/10 bg-black/20 backdrop-blur-xl shadow-lg">
+      <header className="border-b border-border bg-card/50 backdrop-blur-xl">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-white/10 backdrop-blur-sm rounded-lg flex items-center justify-center border border-white/20">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
-                  <path d="M8 4v16l8-8-8-8z" fill="currentColor"/>
+              <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center border border-border">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-primary">
+                  <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </div>
-              <span className="text-xl font-bold text-white">FrameCraft</span>
+              <span className="text-xl font-bold text-foreground">VoiceGPT</span>
             </div>
             <Button 
               onClick={() => setShowApp(true)}
-              className="bg-[#dff000] text-black hover:bg-[#dff000]/90 font-semibold"
+              className="bg-primary text-primary-foreground hover:bg-primary/90"
             >
               Get Started
             </Button>
@@ -79,21 +81,35 @@ export function LandingPage() {
       {/* Hero Section */}
       <section className="py-20 px-6">
         <div className="container mx-auto text-center max-w-4xl">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 text-white font-serif">
-            Turn Any Video Into an AI-Narrated Explainer
+          <div className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 border border-border mb-6">
+            <span className="text-sm text-muted-foreground">✨ AI-Powered • 10+ Languages • Perfect Sync</span>
+          </div>
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 text-foreground tracking-tight">
+            Turn Any Video Into an
+            <span className="text-primary"> AI-Narrated</span> Explainer
           </h1>
-          <p className="text-xl text-white/70 mb-8 max-w-2xl mx-auto">
-            Upload your video and watch as Google Gemini AI analyzes the entire video content, generates a natural script based on what it sees, and creates professional voice-over narration. Perfect for creating tutorials, product demos, educational content, or transforming screen recordings into polished explainer videos.
+          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
+            Upload your video and watch as AI analyzes content, generates natural scripts in any language, and creates professional voice-overs with perfect synchronization.
           </p>
 
-          <Button 
-            size="lg" 
-            onClick={() => setShowApp(true)} 
-            className="gap-2 bg-[#dff000] text-black hover:bg-[#dff000]/90 font-semibold"
-          >
-            <Upload className="w-5 h-5" />
-            Try It Free - Upload Your First Video
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <Button 
+              size="lg" 
+              onClick={() => setShowApp(true)} 
+              className="gap-2 bg-primary text-primary-foreground hover:bg-primary/90 h-12 px-8"
+            >
+              <Upload className="w-5 h-5" />
+              Get Started Free
+            </Button>
+            <Button 
+              size="lg" 
+              variant="outline"
+              className="gap-2 h-12 px-8"
+            >
+              <Play className="w-5 h-5" />
+              Watch Demo
+            </Button>
+          </div>
         </div>
       </section>
 
@@ -102,45 +118,43 @@ export function LandingPage() {
         <section className="py-10 px-6">
           <div className="container mx-auto max-w-4xl">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-semibold text-white">Preview Final Video</h2>
+              <h2 className="text-2xl font-semibold text-foreground">Preview Final Video</h2>
               <div className="flex gap-2">
                 <Button
                   onClick={() => window.open(lastMergedUrl!, '_blank')}
-                  className="bg-[#dff000] text-black hover:bg-[#dff000]/90 font-semibold"
+                  className="bg-primary text-primary-foreground hover:bg-primary/90"
                 >
                   Open in New Tab
                 </Button>
-                <Button variant="outline" onClick={clearPreview} className="border-white/20 text-black hover:bg-white/10">
+                <Button variant="outline" onClick={clearPreview}>
                   Clear Preview
                 </Button>
               </div>
             </div>
-            <PremiumFrame>
-              <Card className="bg-transparent border-transparent shadow-none">
-                <CardContent className="p-4">
-                  <video src={lastMergedUrl} controls className="w-full rounded-md" />
-                </CardContent>
-              </Card>
-            </PremiumFrame>
+            <Card className="border-border bg-card">
+              <CardContent className="p-4">
+                <video src={lastMergedUrl} controls className="w-full rounded-md" />
+              </CardContent>
+            </Card>
           </div>
         </section>
       )}
 
       {/* Inspirations Marquee */}
-      <section className="py-12 bg-white/5 backdrop-blur-sm">
+      <section className="py-12 bg-muted/30">
         <div className="container mx-auto px-6">
-          <h2 className="text-2xl font-semibold text-center mb-8 flex items-center justify-center gap-2 font-serif text-white">
-            <Sparkles className="w-6 h-6 text-[#dff000]" />
+          <h2 className="text-2xl font-semibold text-center mb-8 flex items-center justify-center gap-2 text-foreground">
+            <Sparkles className="w-6 h-6 text-primary" />
             Perfect For
           </h2>
           
           <div className="relative overflow-hidden">
             <Marquee className="[--duration:20s]">
               {inspirationItems.map((item, index) => (
-                <Card key={index} className="mx-2 w-64 shrink-0 bg-white/5 backdrop-blur-sm border border-white/10">
+                <Card key={index} className="mx-2 w-64 shrink-0 bg-card border-border hover:bg-accent transition-colors">
                   <CardContent className="p-6 text-center">
                     <item.icon className={`w-8 h-8 mx-auto mb-3 ${item.color}`} />
-                    <h3 className="font-semibold text-sm text-white">{item.text}</h3>
+                    <h3 className="font-semibold text-sm text-foreground">{item.text}</h3>
                   </CardContent>
                 </Card>
               ))}
@@ -152,39 +166,39 @@ export function LandingPage() {
       {/* Features Section */}
       <section className="py-20 px-6">
         <div className="container mx-auto max-w-6xl">
-          <h2 className="text-3xl font-bold text-center mb-4 font-serif">How It Works</h2>
+          <h2 className="text-3xl font-bold text-center mb-4 text-foreground">How It Works</h2>
           <p className="text-center text-muted-foreground mb-12 max-w-3xl mx-auto">
-            FrameCraft uses Google Gemini AI to transform your raw video content into polished explainer videos. Here's what happens when you upload a video:
+            VoiceGPT uses Google Gemini AI to transform your raw video content into polished explainer videos. Here's what happens when you upload a video:
           </p>
-          <div className="grid md:grid-cols-3 gap-8">
-            <Card className="p-6">
+          <div className="grid md:grid-cols-3 gap-6">
+            <Card className="p-6 border-border bg-card hover:bg-accent transition-colors">
               <Upload className="w-12 h-12 mb-4 text-blue-500" />
-              <h3 className="text-xl font-semibold mb-3">1. AI Video Analysis</h3>
+              <h3 className="text-xl font-semibold mb-3 text-foreground">1. AI Video Analysis</h3>
               <p className="text-muted-foreground mb-3">
-                Google Gemini AI analyzes your entire video content, understanding what's happening throughout the video timeline. It processes the visual and contextual information to create comprehensive understanding.
+                Google Gemini AI analyzes your entire video content, understanding what's happening throughout the video timeline.
               </p>
               <p className="text-sm text-muted-foreground">
-                This advanced AI can understand complex scenes, UI interactions, product demonstrations, and educational content to create accurate narrations.
+                This advanced AI can understand complex scenes, UI interactions, product demonstrations, and educational content.
               </p>
             </Card>
-            <Card className="p-6">
+            <Card className="p-6 border-border bg-card hover:bg-accent transition-colors">
               <Brain className="w-12 h-12 mb-4 text-green-500" />
-              <h3 className="text-xl font-semibold mb-3">2. Intelligent Script Generation</h3>
+              <h3 className="text-xl font-semibold mb-3 text-foreground">2. Intelligent Script Generation</h3>
               <p className="text-muted-foreground mb-3">
-                Based on the video analysis, Gemini AI generates a natural, engaging script that explains what's happening in your video. It understands context, flow, and creates professional narration.
+                Gemini AI generates natural, engaging scripts in your selected language that explain what's happening in your video.
               </p>
               <p className="text-sm text-muted-foreground">
-                The AI creates scripts that are conversational, informative, and perfectly timed to match your video content and your specified goals.
+                The AI creates scripts that are conversational, informative, and perfectly timed to match your video content.
               </p>
             </Card>
-            <Card className="p-6">
+            <Card className="p-6 border-border bg-card hover:bg-accent transition-colors">
               <Wand2 className="w-12 h-12 mb-4 text-yellow-500" />
-              <h3 className="text-xl font-semibold mb-3">3. Professional Voice-Over</h3>
+              <h3 className="text-xl font-semibold mb-3 text-foreground">3. Professional Voice-Over</h3>
               <p className="text-muted-foreground mb-3">
-                Using the generated script, ElevenLabs AI creates natural-sounding voice-over audio that matches the tone and pace of your content. Then, the audio is seamlessly merged with your original video.
+                ElevenLabs AI creates natural-sounding voice-over audio that matches the tone and pace of your content.
               </p>
               <p className="text-sm text-muted-foreground">
-                The result is a professional explainer video that sounds like it was created by a human narrator, perfectly synchronized with your video content.
+                The result is a professional explainer video with perfect audio-video synchronization.
               </p>
             </Card>
           </div>
@@ -192,11 +206,11 @@ export function LandingPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-6 bg-primary/5">
+      <section className="py-20 px-6 bg-muted/50 border-y border-border">
         <div className="container mx-auto text-center max-w-3xl">
-          <h2 className="text-3xl font-bold mb-4">Ready to Transform Your Videos?</h2>
+          <h2 className="text-3xl font-bold mb-4 text-foreground">Ready to Transform Your Videos?</h2>
           <p className="text-xl text-muted-foreground mb-6">
-            Whether you're creating software tutorials, product demos, educational content, or turning long recordings into digestible explainers, FrameCraft does the heavy lifting for you.
+            Whether you're creating software tutorials, product demos, educational content, or turning long recordings into digestible explainers, VoiceGPT does the heavy lifting for you.
           </p>
           <p className="text-lg text-muted-foreground mb-8">
             No video editing experience required. No manual scripting. Just upload your video and let AI handle the rest. Start creating professional explainer videos in minutes, not hours.
@@ -204,7 +218,7 @@ export function LandingPage() {
           <Button 
             size="lg" 
             onClick={() => setShowApp(true)} 
-            className="gap-2 bg-[#dff000] text-black hover:bg-[#dff000]/90 font-semibold"
+            className="gap-2 bg-primary text-primary-foreground hover:bg-primary/90 h-12 px-8"
           >
             <Video className="w-5 h-5" />
             Get Started - Upload Your Video
@@ -213,67 +227,69 @@ export function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-black/20 backdrop-blur-xl border-t border-white/10">
+      <footer className="bg-card border-t border-border">
         <div className="container mx-auto px-6 py-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {/* Brand */}
             <div className="space-y-4">
               <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-white/10 backdrop-blur-sm rounded-lg flex items-center justify-center border border-white/20">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
-                    <path d="M8 4v16l8-8-8-8z" fill="currentColor"/>
+                <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center border border-border">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-primary">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </div>
-                <span className="text-xl font-bold text-white">FrameCraft</span>
+                <span className="text-xl font-bold text-foreground">VoiceGPT</span>
               </div>
-              <p className="text-sm text-white/70">
-                Transform any video into an AI-narrated explainer with advanced frame extraction and natural language generation.
+              <p className="text-sm text-muted-foreground">
+                Transform any video into AI-narrated content with multi-language support and perfect audio-video sync.
               </p>
             </div>
 
             {/* Product */}
             <div className="space-y-4">
-              <h3 className="font-semibold text-white">Product</h3>
-              <ul className="space-y-2 text-sm text-white/70">
-                <li><a href="#" className="hover:text-white transition-colors">Features</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Pricing</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">API</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Documentation</a></li>
+              <h3 className="font-semibold text-foreground">Product</h3>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li><a href="#" className="hover:text-foreground transition-colors">Features</a></li>
+                <li><a href="#" className="hover:text-foreground transition-colors">Pricing</a></li>
+                <li><a href="#" className="hover:text-foreground transition-colors">API</a></li>
+                <li><a href="#" className="hover:text-foreground transition-colors">Documentation</a></li>
               </ul>
             </div>
 
             {/* Company */}
             <div className="space-y-4">
-              <h3 className="font-semibold text-white">Company</h3>
-              <ul className="space-y-2 text-sm text-white/70">
-                <li><a href="#" className="hover:text-white transition-colors">About</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Blog</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
+              <h3 className="font-semibold text-foreground">Company</h3>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li><a href="#" className="hover:text-foreground transition-colors">About</a></li>
+                <li><a href="#" className="hover:text-foreground transition-colors">Blog</a></li>
+                <li><a href="#" className="hover:text-foreground transition-colors">Careers</a></li>
+                <li><a href="#" className="hover:text-foreground transition-colors">Contact</a></li>
               </ul>
             </div>
 
             {/* Support */}
             <div className="space-y-4">
-              <h3 className="font-semibold text-white">Support</h3>
-              <ul className="space-y-2 text-sm text-white/70">
-                <li><a href="#" className="hover:text-white transition-colors">Help Center</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Community</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Status</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Privacy</a></li>
+              <h3 className="font-semibold text-foreground">Support</h3>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li><a href="#" className="hover:text-foreground transition-colors">Help Center</a></li>
+                <li><a href="#" className="hover:text-foreground transition-colors">Community</a></li>
+                <li><a href="#" className="hover:text-foreground transition-colors">Status</a></li>
+                <li><a href="#" className="hover:text-foreground transition-colors">Privacy</a></li>
               </ul>
             </div>
           </div>
 
           {/* Bottom Bar */}
-          <div className="border-t border-white/10 mt-8 pt-8 flex flex-col sm:flex-row justify-between items-center">
-            <p className="text-sm text-white/70">
-              © 2024 FrameCraft. All rights reserved.
+          <div className="border-t border-border mt-8 pt-8 flex flex-col sm:flex-row justify-between items-center">
+            <p className="text-sm text-muted-foreground">
+              © 2025 VoiceGPT. All rights reserved.
             </p>
             <div className="flex items-center space-x-4 mt-4 sm:mt-0">
-              <a href="#" className="text-sm text-white/70 hover:text-white transition-colors">Terms</a>
-              <a href="#" className="text-sm text-white/70 hover:text-white transition-colors">Privacy</a>
-              <a href="#" className="text-sm text-white/70 hover:text-white transition-colors">Cookies</a>
+              <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Terms</a>
+              <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Privacy</a>
+              <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Cookies</a>
             </div>
           </div>
         </div>
