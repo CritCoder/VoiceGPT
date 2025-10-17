@@ -18,7 +18,7 @@ To change your deployment URL to `voicegpt.vercel.app`, follow these steps:
 
 1. **Go to Vercel Dashboard**
    - Visit: https://vercel.com/dashboard
-   - Find your `distinct-frame-extraction-master` project
+   - Find your VoiceGPT project
 
 2. **Open Project Settings**
    - Click on the project
@@ -27,7 +27,7 @@ To change your deployment URL to `voicegpt.vercel.app`, follow these steps:
 3. **Change Project Name**
    - Scroll to **General** section
    - Find **Project Name** field
-   - Change from `distinct-frame-extraction-master` to `voicegpt`
+   - Change to `voicegpt` if not already set
    - Click **Save**
 
 4. **Access Your New URL**
@@ -75,8 +75,8 @@ vercel env add GEMINI_API_KEY production
 
 ### For Project Management
 - **Vercel Dashboard**: https://vercel.com/dashboard
-- **Project Settings**: https://vercel.com/dukaantech/distinct-frame-extraction-master/settings
-- **Deployments**: https://vercel.com/dukaantech/distinct-frame-extraction-master
+- **Project Settings**: Check your Vercel dashboard for project settings
+- **Deployments**: Check your Vercel dashboard for deployments
 
 ### For Development
 - **GitHub Repo**: https://github.com/CritCoder/VoiceGPT
@@ -87,7 +87,7 @@ vercel env add GEMINI_API_KEY production
 
 ### Deploy to Production
 ```bash
-cd /Users/papapudge/Downloads/distinct-frame-extraction-master
+cd /Users/papapudge/Downloads/VoiceGPT
 vercel --prod
 ```
 
@@ -111,7 +111,7 @@ vercel rollback <deployment-url>
 If you want to use your own domain instead of vercel.app:
 
 1. **Go to Project Settings**
-   - Visit: https://vercel.com/dukaantech/distinct-frame-extraction-master/settings/domains
+   - Visit your Vercel project settings and go to Domains section
 
 2. **Add Custom Domain**
    - Click **Add Domain**
