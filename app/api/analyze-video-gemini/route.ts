@@ -33,6 +33,7 @@ export async function POST(request: NextRequest) {
     }
 
     const genAI = new GoogleGenerativeAI(apiKey)
+    // Using gemini-2.0-flash-exp for direct video analysis (no frame extraction needed)
     const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp' })
 
     // Convert video file to base64
