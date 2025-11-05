@@ -24,7 +24,7 @@ const inspirationItems = [
   { icon: Film, text: "Tutorial Content", color: "text-green-500" },
   { icon: Brain, text: "AI Analysis", color: "text-yellow-500" },
   { icon: FileVideo, text: "Product Demos", color: "text-purple-500" },
-  { icon: Layers, text: "Frame Extraction", color: "text-orange-500" },
+  { icon: Layers, text: "Direct Video Analysis", color: "text-orange-500" },
   { icon: Wand2, text: "Auto Narration", color: "text-pink-500" },
   { icon: Play, text: "Video Explainers", color: "text-red-500" },
   { icon: Sparkles, text: "AI-Powered", color: "text-indigo-500" },
