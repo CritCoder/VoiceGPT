@@ -73,7 +73,7 @@ export function PremiumFrame({ className, children, radius = 16 }: PremiumFrameP
 
       {/* Content container */}
       <div
-        className="relative rounded-2xl bg-[#0b0b0f]/90 backdrop-blur-xl border border-white/10 shadow-2xl"
+        className="relative rounded-2xl bg-background/90 backdrop-blur-xl border border-border shadow-2xl"
         style={{ borderRadius: r }}
       >
         {children}

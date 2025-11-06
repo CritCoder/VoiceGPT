@@ -171,23 +171,23 @@ export function VoiceSelector({ selectedLanguage, selectedVoice, onVoiceSelect }
   if (loading) {
     return (
       <div className="flex items-center justify-center p-8">
-        <Loader2 className="w-8 h-8 animate-spin text-[#dff000]" />
-        <span className="ml-3 text-white">Loading voices...</span>
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        <span className="ml-3 text-foreground">Loading voices...</span>
       </div>
     )
   }
 
   return (
     <div className="space-y-4">
-      <Label className="text-white/80 text-base">Select Voice</Label>
+      <Label className="text-foreground text-base">Select Voice</Label>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-96 overflow-y-auto pr-2">
         {filteredVoices.map((voice) => (
           <Card
             key={voice.voice_id}
             className={`cursor-pointer transition-all hover:shadow-lg ${
               selectedVoice === voice.voice_id
-                ? 'bg-[#dff000]/20 border-[#dff000] border-2'
-                : 'bg-white/5 border-white/20 hover:bg-white/10'
+                ? 'bg-primary/20 border-primary border-2'
+                : 'bg-card hover:bg-muted'
             }`}
             onClick={() => onVoiceSelect(voice.voice_id, voice.name)}
           >
@@ -195,30 +195,30 @@ export function VoiceSelector({ selectedLanguage, selectedVoice, onVoiceSelect }
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2">
-                    <h4 className="font-semibold text-white">{voice.name}</h4>
+                    <h4 className="font-semibold text-foreground">{voice.name}</h4>
                     {selectedVoice === voice.voice_id && (
-                      <Check className="w-4 h-4 text-[#dff000]" />
+                      <Check className="w-4 h-4 text-primary" />
                     )}
                   </div>
                   <div className="flex flex-wrap gap-2 mb-3">
                     {voice.labels?.gender && (
-                      <span className="text-xs px-2 py-1 bg-white/10 rounded-full text-white/70">
+                      <span className="text-xs px-2 py-1 bg-muted rounded-full text-muted-foreground">
                         {voice.labels.gender}
                       </span>
                     )}
                     {voice.labels?.accent && (
-                      <span className="text-xs px-2 py-1 bg-white/10 rounded-full text-white/70">
+                      <span className="text-xs px-2 py-1 bg-muted rounded-full text-muted-foreground">
                         {voice.labels.accent}
                       </span>
                     )}
                     {voice.labels?.age && (
-                      <span className="text-xs px-2 py-1 bg-white/10 rounded-full text-white/70">
+                      <span className="text-xs px-2 py-1 bg-muted rounded-full text-muted-foreground">
                         {voice.labels.age}
                       </span>
                     )}
                   </div>
                   {voice.labels?.description && (
-                    <p className="text-xs text-white/60 mb-3">
+                    <p className="text-xs text-muted-foreground mb-3">
                       {voice.labels.description}
                     </p>
                   )}
@@ -236,7 +236,7 @@ export function VoiceSelector({ selectedLanguage, selectedVoice, onVoiceSelect }
                   }
                 }}
                 disabled={previewingVoice !== null && previewingVoice !== voice.voice_id}
-                className="w-full border-white/20 text-white hover:bg-white/10"
+                className="w-full"
               >
                 {previewingVoice === voice.voice_id && isPlaying ? (
                   <>
@@ -260,7 +260,7 @@ export function VoiceSelector({ selectedLanguage, selectedVoice, onVoiceSelect }
         ))}
       </div>
       {filteredVoices.length === 0 && (
-        <div className="text-center p-8 text-white/60">
+        <div className="text-center p-8 text-muted-foreground">
           <Volume2 className="w-12 h-12 mx-auto mb-3 opacity-50" />
           <p>No voices available for this language</p>
         </div>

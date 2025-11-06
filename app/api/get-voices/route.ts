@@ -2,13 +2,16 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
   try {
-    const apiKey = process.env.ELEVENLABS_API_KEY
+    const apiKey = process.env.ELEVENLABS_API_KEY?.trim()
     if (!apiKey) {
+      console.error('❌ [Get Voices] ELEVENLABS_API_KEY is missing or empty')
       return NextResponse.json(
         { error: 'ElevenLabs API key not configured' },
         { status: 500 }
       )
     }
+    
+    console.log('🔑 [Get Voices] API key length:', apiKey.length)
 
     console.log('🎤 [Get Voices] Fetching available voices from ElevenLabs...')
 
