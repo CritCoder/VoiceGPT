@@ -20,13 +20,17 @@ export async function POST(request: NextRequest) {
     console.log('🎵 [Audio Generation] Language:', language || 'en')
     console.log('⏱️ [Audio Generation] Target video duration:', videoDuration ? `${videoDuration}s` : 'Not specified')
 
-    const apiKey = process.env.ELEVENLABS_API_KEY
+    const apiKey = process.env.ELEVENLABS_API_KEY?.trim()
     if (!apiKey) {
+      console.error('❌ [Audio Generation] ELEVENLABS_API_KEY is missing or empty')
       return NextResponse.json(
         { error: 'ElevenLabs API key not configured' },
         { status: 500 }
       )
     }
+    
+    console.log('🔑 [Audio Generation] API key length:', apiKey.length)
+    console.log('🔑 [Audio Generation] API key starts with:', apiKey.substring(0, 5))
 
     // Use provided voice ID or fallback to default
     const selectedVoiceId = voiceId || 'JBFqnCBsd6RMkjVDRZzb'
