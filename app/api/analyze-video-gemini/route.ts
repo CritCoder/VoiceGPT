@@ -1,7 +1,74 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { GoogleGenerativeAI } from '@google/generative-ai'
+import { GoogleAIFileManager, FileState } from '@google/generative-ai/server'
+
+const FILE_PROCESS_TIMEOUT_MS = 2 * 60 * 1000
+const FILE_PROCESS_POLL_INTERVAL_MS = 2000
+
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+
+const waitForGeminiFileReady = async (
+  fileManager: GoogleAIFileManager,
+  fileName: string
+) => {
+  const startedAt = Date.now()
+  let latestMetadata = await fileManager.getFile(fileName)
+  console.log(
+    '⏳ [Gemini Video Analysis] Uploaded file state:',
+    latestMetadata.state
+  )
+
+  while (latestMetadata.state === FileState.PROCESSING) {
+    if (Date.now() - startedAt > FILE_PROCESS_TIMEOUT_MS) {
+      throw new Error(
+        'Timed out while waiting for Gemini to process the uploaded video.'
+      )
+    }
+
+    await sleep(FILE_PROCESS_POLL_INTERVAL_MS)
+    latestMetadata = await fileManager.getFile(fileName)
+    console.log(
+      '⏳ [Gemini Video Analysis] Waiting for Gemini file...',
+      latestMetadata.state
+    )
+  }
+
+  if (latestMetadata.state === FileState.FAILED) {
+    throw new Error(
+      latestMetadata.error?.message ||
+        'Gemini failed to process the uploaded video file.'
+    )
+  }
+
+  if (!latestMetadata.uri) {
+    throw new Error('Gemini did not return a file URI for the uploaded video.')
+  }
+
+  return latestMetadata
+}
 
 export async function POST(request: NextRequest) {
+  let uploadedFileName: string | null = null
+  let fileManager: GoogleAIFileManager | null = null
+
+  const cleanupGeminiFile = async () => {
+    if (!uploadedFileName || !fileManager) return
+    try {
+      await fileManager.deleteFile(uploadedFileName)
+      console.log(
+        '🧹 [Gemini Video Analysis] Deleted temporary Gemini file:',
+        uploadedFileName
+      )
+    } catch (cleanupError) {
+      console.warn(
+        '⚠️ [Gemini Video Analysis] Failed to delete Gemini file:',
+        cleanupError
+      )
+    } finally {
+      uploadedFileName = null
+    }
+  }
+
   try {
     const formData = await request.formData()
     const videoFile = formData.get('video') as File
@@ -33,17 +100,37 @@ export async function POST(request: NextRequest) {
     }
 
     const genAI = new GoogleGenerativeAI(apiKey)
+    const manager = new GoogleAIFileManager(apiKey)
+    fileManager = manager
     // Using gemini-2.0-flash-exp for direct video analysis (no frame extraction needed)
     const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp' })
 
-    // Convert video file to base64
-    const videoBuffer = await videoFile.arrayBuffer()
-    const videoBase64 = Buffer.from(videoBuffer).toString('base64')
+    const videoBuffer = Buffer.from(await videoFile.arrayBuffer())
     const mimeType = videoFile.type || 'video/mp4'
 
     console.log('🤖 [Gemini Video Analysis] Model: gemini-2.0-flash-exp')
     console.log('🖼️ [Gemini Video Analysis] Video MIME type:', mimeType)
-    console.log('📊 [Gemini Video Analysis] Video base64 length:', videoBase64.length)
+    console.log(
+      '📦 [Gemini Video Analysis] Video buffer size:',
+      `${(videoBuffer.byteLength / 1024 / 1024).toFixed(2)} MB`
+    )
+
+    console.log('📤 [Gemini Video Analysis] Uploading video to Gemini Files API')
+    const uploadResponse = await manager.uploadFile(videoBuffer, {
+      displayName: videoFile.name,
+      mimeType,
+    })
+    uploadedFileName = uploadResponse.file.name
+    let uploadedFileUri = uploadResponse.file.uri
+
+    if (uploadResponse.file.state === FileState.PROCESSING) {
+      const readyFile = await waitForGeminiFileReady(manager, uploadResponse.file.name)
+      uploadedFileUri = readyFile.uri
+    }
+
+    if (!uploadedFileUri) {
+      throw new Error('Gemini file URI missing after upload.')
+    }
 
     const durationInstructions = videoDuration > 0 
       ? `\n\nVIDEO DURATION: The video is ${videoDuration.toFixed(2)} seconds (${Math.floor(videoDuration / 60)}:${Math.floor(videoDuration % 60).toString().padStart(2, '0')}) long. Your narration should fit naturally within this duration. Create a transcript that, when spoken naturally in ${languageName}, will last approximately ${videoDuration.toFixed(0)} seconds. Pace your content accordingly - don't rush or drag.`
@@ -87,14 +174,14 @@ Output ONLY the JSON object, nothing else.`
 
     const result = await model.generateContent([
       {
-        text: systemPrompt,
+        fileData: {
+          fileUri: uploadedFileUri,
+          mimeType,
+        },
       },
       {
-        inlineData: {
-          data: videoBase64,
-          mimeType: mimeType
-        }
-      }
+        text: systemPrompt,
+      },
     ])
 
     const response = await result.response
@@ -176,5 +263,7 @@ Output ONLY the JSON object, nothing else.`
       { error: `Failed to analyze video with Gemini: ${error?.message || 'Unknown error'}` },
       { status: 500 }
     )
+  } finally {
+    await cleanupGeminiFile()
   }
 }
